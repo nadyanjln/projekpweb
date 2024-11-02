@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="form-container animate__animated animate__fadeIn" data-aos="fade-up">
+        <h1 class="text-center mb-4">Login</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group" data-aos="fade-right" data-aos-delay="100">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", placeholder="Enter your email") }}
+                {% if form.email.errors %}
+                    <div class="invalid-feedback animate__animated animate__shakeX">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group" data-aos="fade-right" data-aos-delay="200">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", placeholder="Enter your password") }}
+                {% if form.password.errors %}
+                    <div class="invalid-feedback animate__animated animate__shakeX">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group" data-aos="fade-up" data-aos-delay="400">
+                {{ form.submit(class="btn btn-primary btn-block") }}
+            </div>
+        </form>
+        <div class="border-top pt-3 mt-4" data-aos="fade-up" data-aos-delay="500">
+            <small class="text-muted">
+                Need An Account? <a class="ml-2 link-primary" href="{{ url_for('main.register') }}">Sign Up Now</a>
+            </small>
+        </div>
+        <div class="border-top pt-3 mt-2" data-aos="fade-up" data-aos-delay="600">
+            <small class="text-muted">
+                Forgot Password? <a class="ml-2 link-primary" href="{{ url_for('main.reset_password') }}">Reset Password</a>
+            </small>
+        </div>
+    </div>
+{% endblock %}

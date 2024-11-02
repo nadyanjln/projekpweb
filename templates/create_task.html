@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Create New Task{% endblock %}
+
+{% block content %}
+    <div class="form-container animate__animated animate__fadeIn" data-aos="fade-up">
+        <h1>Create New Task</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group" data-aos="fade-right" data-aos-delay="100">
+                {{ form.title.label }}
+                {{ form.title(class="form-control") }}
+                {% if form.title.errors %}
+                    <div class="invalid-feedback animate__animated animate__shakeX">
+                        {% for error in form.title.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group" data-aos="fade-right" data-aos-delay="200">
+                {{ form.description.label }}
+                {{ form.description(class="form-control") }}
+                {% if form.description.errors %}
+                    <div class="invalid-feedback animate__animated animate__shakeX">
+                        {% for error in form.description.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group" data-aos="fade-right" data-aos-delay="300">
+                {{ form.date.label }}
+                {{ form.date(class="form-control") }}
+                {% if form.date.errors %}
+                    <div class="invalid-feedback animate__animated animate__shakeX">
+                        {% for error in form.date.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group" data-aos="fade-up" data-aos-delay="400">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}

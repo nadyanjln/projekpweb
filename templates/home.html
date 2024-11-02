@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1 class="welcome-message animate__animated animate__fadeIn">Welcome, {{ current_user.username }}!</h1>
+    
+    <div class="dashboard">
+        <div id="calendar" class="animate__animated animate__fadeIn" data-aos="fade-right"></div>
+        
+        <div class="task-section animate__animated animate__fadeIn" data-aos="fade-left">
+            <div class="create-task-container">
+                <h2>Create New Task</h2>
+                <a href="{{ url_for('main.new_task') }}" class="btn btn-primary create-task-btn">Create New Task</a>
+            </div>
+            
+            <div class="task-list">
+                <h2>Upcoming Tasks</h2>
+                {% if tasks %}
+                    <div class="task-grid">
+                    {% for task in tasks %}
+                        <div class="task-item" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                            <h3>{{ task.title }}</h3>
+                            <p class="task-date">{{ task.date.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <p class="task-description">{{ task.description }}</p>
+                            <button class="btn btn-sm btn-info view-task-btn">View Details</button>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="no-tasks-message">No upcoming tasks. Start by adding a new task!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-task-title"></h2>
+            <p id="modal-task-date"></p>
+            <p id="modal-task-description"></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('.view-task-btn').click(function() {
+            var title = $(this).siblings('h3').text();
+            var date = $(this).siblings('.task-date').text();
+            var description = $(this).siblings('.task-description').text();
+            
+            $('#modal-task-title').text(title);
+            $('#modal-task-date').text(date);
+            $('#modal-task-description').text(description);
+            
+            $('#task-modal').fadeIn();
+        });
+
+        $('.close').click(function() {
+            $('#task-modal').fadeOut();
+        });
+
+        $(window).click(function(event) {
+            if (event.target == document.getElementById('task-modal')) {
+                $('#task-modal').fadeOut();
+            }
+        });
+    });
+</script>
+{% endblock %}

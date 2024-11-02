@@ -1,0 +1,458 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #ff6b6b; /* Warna primer cerah */
+  --secondary-color: #ffa372; /* Warna sekunder */
+  --accent-color: #ffa7c4; /* Warna aksen */
+  --background-color: #f3e9f1; /* Warna latar belakang yang lebih cerah */
+  --text-color: #333;
+  --card-background: #fff;
+}
+
+[data-theme="dark"] {
+  --primary-color: #61dafb;
+  --background-color: #282a2f;
+  --text-color: #f3f3f3;
+  --card-background: #363b45;
+  --border-color: #4a4e57;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  padding: 1rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav ul li {
+  color: var(--accent-color);
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: var(--secondary-color);
+}
+
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+#calendar {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  overflow: hidden
+}
+
+.task-list {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  padding: 1.5rem;
+  margin-top: 10px;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+/* CSS untuk modal */
+.modal {
+  display: none; /* Awalnya tersembunyi */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Background semi transparan */
+}
+
+.task-description {
+  /* Membatasi teks agar tetap rapi */
+  word-wrap: break-word;
+  word-break: break-word;
+  max-height: 100px; /* Sesuaikan tinggi maksimal */
+  overflow: hidden;  /* Menyembunyikan bagian yang tidak terlihat */
+  text-overflow: ellipsis; /* Menambahkan ellipsis jika terlalu panjang */
+  white-space: nowrap; /* Membuat teks dalam satu baris */
+}
+
+.modal-description-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  position: relative;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  background: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Untuk memastikan teks dalam kotak tidak keluar batas */
+.task-description, #modal-task-description {
+  word-wrap: break-word;  /* Memastikan kata-kata panjang dibungkus */
+  word-break: break-word; /* Membagi kata panjang agar tidak keluar kotak */
+  max-height: 100px; /* Sesuaikan tinggi maksimal */
+  overflow: hidden; /* Menyembunyikan bagian teks yang melebihi tinggi */
+  text-overflow: ellipsis; /* Menambahkan ellipsis jika teks dipotong */
+}
+
+/* Kontainer deskripsi dalam modal */
+.modal-description-container {
+  max-height: 200px; /* Tinggi maksimal modal */
+  overflow-y: auto; /* Scroll vertikal jika konten terlalu panjang */
+}
+
+header nav {
+  display: flex;
+  justify-content: flex-end; /* Menempatkan elemen di sebelah kanan */
+  padding: 10px; /* Menambahkan sedikit padding */
+}
+
+header nav ul {
+  list-style: none; /* Menghilangkan bullet pada daftar */
+  padding: 0; /* Menghilangkan padding pada daftar */
+  margin: 0; /* Menghilangkan margin pada daftar */
+  display: flex; /* Menggunakan flexbox untuk item daftar */
+}
+
+header nav ul li {
+  margin-left: 20px; /* Menambahkan jarak antar item */
+}
+
+header nav ul li a {
+  text-decoration: none; /* Menghilangkan garis bawah pada link */
+  color: #fff9f9; /* Mengatur warna teks link */
+  font-weight: bold; /* Mengatur teks menjadi tebal */
+}
+
+header nav ul li a:hover {
+  color: #7c7c7c; /* Mengubah warna saat hover */
+}
+
+/* Kontainer modal */
+.modal-content {
+  position: relative;
+  padding: 20px;
+  max-width: 500px; /* Lebar maksimal */
+  margin: auto;
+  overflow-wrap: break-word; /* Memastikan kata-kata panjang dibungkus */
+  word-wrap: break-word; /* Membagi kata panjang agar tetap dalam modal */
+  word-break: break-word; /* Sama dengan di atas untuk kata tanpa spasi */
+}
+
+/* Modal konten */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Tempatkan di tengah layar */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px; /* Batas lebar */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Tombol close */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.btn 
+{
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #4a90e2, #50c878);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #50c878, #4a90e2);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+  
+  #calendar, .task-list {
+    width: 100%;
+    max-width: none;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    padding: 1.5rem;
+  }
+}
+
+/* Calendar Dark Mode Styles */
+[data-theme="dark"] .fc-view-container {
+    background-color: var(--card-background);
+}
+
+[data-theme="dark"] .fc-day-header,
+[data-theme="dark"] .fc-day-number,
+[data-theme="dark"] .fc-day-top,
+[data-theme="dark"] .fc-event-container,
+[data-theme="dark"] .fc-list-item {
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .fc-unthemed td.fc-today {
+    background-color: rgba(97, 218, 251, 0.2);
+}
+
+[data-theme="dark"] .fc-button {
+    background-color: var(--primary-color);
+}
+
+[data-theme="dark"] .fc-button:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+#calendar {
+    flex: 1;
+    min-width: 300px;
+}
+
+.task-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.create-task-container {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  padding: 1.5rem;
+}
+
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.task-item {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.task-item h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.task-date {
+    font-size: 0.9em;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.task-description {
+    margin-bottom: 1rem;
+}
+
+.view-task-btn {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    
+    #calendar, .task-section {
+        width: 100%;
+    }
+}
