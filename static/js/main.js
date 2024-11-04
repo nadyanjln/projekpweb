@@ -61,7 +61,6 @@ $(document).ready(function() {
         selectable: true,
         selectHelper: true,
         select: function(start, end) {
-            var title = prompt('Event Title:');
             var eventData;
             if (title) {
                 eventData = {
@@ -74,14 +73,6 @@ $(document).ready(function() {
                     type: 'POST',
                     data: JSON.stringify(eventData),
                     contentType: 'application/json',
-                    success: function() {
-                        $('#calendar').fullCalendar('renderEvent', eventData, true);
-                        showNotification('Event added successfully!', 'success');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error adding event:", error);
-                        showNotification('Failed to add event. Please try again.', 'error');
-                    }
                 });
             }
             $('#calendar').fullCalendar('unselect');
@@ -93,11 +84,11 @@ $(document).ready(function() {
                     type: 'DELETE',
                     success: function() {
                         $('#calendar').fullCalendar('removeEvents', event.id);
-                        showNotification('Event deleted successfully!', 'success');
+
                     },
                     error: function(xhr, status, error) {
                         console.error("Error deleting event:", error);
-                        showNotification('Failed to delete event. Please try again.', 'error');
+
                     }
                 });
             }
@@ -115,7 +106,7 @@ $(document).ready(function() {
             var taskItem = $('<li class="slide-in-left">' + taskName + '<button class="delete-task">Delete</button></li>');
             $('#task-list').append(taskItem);
             $('#task-name').val('');
-            showNotification('Task added successfully!', 'success');
+
         }
     });
 
@@ -123,18 +114,14 @@ $(document).ready(function() {
     $('#task-list').on('click', '.delete-task', function() {
         $(this).parent().fadeOut(300, function() {
             $(this).remove();
-            showNotification('Task deleted successfully!', 'success');
+
         });
     });
 
     // Dark mode toggle
     $('#dark-mode-toggle').change(function() {
         $('body').toggleClass('dark-mode');
-        if ($('body').hasClass('dark-mode')) {
-            showNotification('Dark mode enabled', 'success');
-        } else {
-            showNotification('Light mode enabled', 'success');
-        }
+
     });
 
     // Smooth scrolling for navigation links
