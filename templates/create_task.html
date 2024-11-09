@@ -2,46 +2,85 @@
 {% block title %}Create New Task{% endblock %}
 
 {% block content %}
-    <div class="form-container animate__animated animate__fadeIn" data-aos="fade-up">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <div class="form-container animate__animated animate__fadeIn" data-aos="fade-up" style="max-width: 500px; margin: auto;">
         <h1>Create New Task</h1>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
+            
+            <!-- Title Field with Full Width -->
             <div class="form-group" data-aos="fade-right" data-aos-delay="100">
                 {{ form.title.label }}
-                {{ form.title(class="form-control") }}
-                {% if form.title.errors %}
-                    <div class="invalid-feedback animate__animated animate__shakeX">
-                        {% for error in form.title.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                {{ form.title(class="form-control", style="width: 95%;") }}
             </div>
+            
+            <!-- Toggle Button for Description -->
             <div class="form-group" data-aos="fade-right" data-aos-delay="200">
+                <button type="button" onclick="toggleDescription()" class="btn btn-secondary" style="width: 100%;">Add Description</button>
+            </div>
+            
+            <!-- Description Field with Full Width -->
+            <div class="form-group" id="description-container" style="display: none;" data-aos="fade-right" data-aos-delay="200" style="width: 60%;">
                 {{ form.description.label }}
-                {{ form.description(class="form-control") }}
-                {% if form.description.errors %}
-                    <div class="invalid-feedback animate__animated animate__shakeX">
-                        {% for error in form.description.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                {{ form.description(class="form-control", style="resize: none; width: 100%;") }}
             </div>
+
             <div class="form-group" data-aos="fade-right" data-aos-delay="300">
-                {{ form.date.label }}
-                {{ form.date(class="form-control") }}
-                {% if form.date.errors %}
-                    <div class="invalid-feedback animate__animated animate__shakeX">
-                        {% for error in form.date.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="date">Date</label>
+                <input type="text" id="date" class="form-control" name="date" style="width: 95%;">
             </div>
-            <div class="form-group" data-aos="fade-up" data-aos-delay="400">
-                {{ form.submit(class="btn btn-primary") }}
+
+            <!-- Start Time and End Time on the Same Row with Fixed Width -->
+            <div class="form-group d-flex" data-aos="fade-right" data-aos-delay="400" style="display: flex; gap: 10px; width: 95%;">
+                <div style="flex: 1;">
+                    <label for="start-time">Start Time</label>
+                    <input type="text" id="start-time" class="form-control" name="start-time" style="width: 100%;">
+                </div>
+                <div style="flex: 1;">
+                    <label for="end-time">End Time</label>
+                    <input type="text" id="end-time" class="form-control" name="end-time" style="width: 100%;">
+                </div>
+            </div>
+
+            <div class="form-group" data-aos="fade-up" data-aos-delay="600">
+                {{ form.submit(class="btn btn-primary", style="width: 100%;") }}
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize flatpickr with the default date as today and the current time
+            flatpickr("#date", {
+                dateFormat: "l, F j",
+                minDate: "today",
+                defaultDate: new Date()  // Set default to today
+            });
+            flatpickr("#start-time", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                time_24hr: false,
+                defaultDate: new Date(),  // Set default to current time
+            });
+            flatpickr("#end-time", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                time_24hr: false,
+                defaultDate: new Date(new Date().setHours(new Date().getHours() + 1)),  // Set default to 1 hour from now
+            });
+        });
+
+        function toggleDescription() {
+            const descriptionContainer = document.getElementById("description-container");
+            if (descriptionContainer.style.display === "none") {
+                descriptionContainer.style.display = "block";
+            } else {
+                descriptionContainer.style.display = "none";
+            }
+        }
+    </script>
 {% endblock %}
